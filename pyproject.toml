@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "contextual-logger"
+description = "Implementation of LoggerAdapter that automatically includes the current context"
+requires-python = ">=3.9"
+urls = {homepage = "https://github.com/Terseus/python-contextual-logger"}
+authors = [
+    {name = "David Caro", email = "terseus@fastmail.com"},
+]
+license = {text = "MIT"}
+dynamic = ["readme", "dependencies", "version"]
+
+[tool.setuptools]
+packages = ["contextual_logger"]
+
+# Taken from https://github.com/pypa/setuptools/blob/d138ec08efc2dbaebb8752e215e324f38bd807a2/setuptools/tests/config/test_pyprojecttoml.py#L68
+[tool.setuptools.dynamic.readme]
+file = ["README.md"]
+content-type = "text/markdown"
+
+[tool.setuptools.dynamic.dependencies]
+file = ["requirements.txt"]
+
+[tool.setuptools_scm]
+version_scheme = "no-guess-dev"
+local_scheme = "no-local-version"
+
+[tool.ruff]
+# Same as Black
+line-length = 99
+indent-width = 4
+target-version = "py39"
+
+[tool.ruff.format]
+skip-magic-trailing-comma = true
+
+[tool.ruff.lint]
+ignore = []
+select = [
+    "E",
+    "F",
+    "W",
+    "I",  # isort
+]
+
+[tool.ruff.lint.isort]
+known-local-folder = [
+    "contextual_logger",
+]
+split-on-trailing-comma = false
+
+[tool.pytest.ini_options]
+addopts = "--cov-report term --cov-report html --cov contextual_logger"
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
