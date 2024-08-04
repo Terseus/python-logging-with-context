@@ -1,9 +1,9 @@
 from collections import defaultdict
 from logging import Formatter, LogRecord
-from typing import Any, Callable, Mapping, Optional, Set, Type, TypeVar
+from typing import Any, Callable, Dict, Optional, Set, Type, TypeVar
 
 T = TypeVar("T")
-ValueSerializerMap = Mapping[Type[T], Callable[[T], str]]
+ValueSerializerMap = Dict[Type[T], Callable[[T], str]]
 
 
 def _str_serializer(value: str) -> str:
@@ -60,8 +60,8 @@ class ExtraTextFormatter(Formatter):
         super().__init__(*args, **kwargs)
         if serializers is None:
             serializers = {}
-        serializers = self._DEFAULT_SERIALIZERS | serializers  # type: ignore
-        self._serializers = defaultdict(lambda: default_serializer) | serializers  # type: ignore
+        serializers = self._DEFAULT_SERIALIZERS | serializers
+        self._serializers = defaultdict(lambda: default_serializer) | serializers
 
     def _serialize_value(self, value: Any) -> str:
         serializer = self._serializers[type(value)]
