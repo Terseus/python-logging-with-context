@@ -63,3 +63,14 @@ def test_extra_text_formatter_default_serializer_ok(caplog_factory: CaplogFactor
         logger.info("Testing", extra={"key1": "value1", "key2": MyValue("my_name", "my_value")})
     expected = 'Testing; key1="value1", key2=MyValue(my_name=my_value)\n'
     assert caplog.text == expected
+
+
+def test_extra_text_formatter_override_default_serializer_ok(caplog_factory: CaplogFactory):
+    caplog = caplog_factory(
+        ExtraTextFormatter(fmt="%(message)s", serializers={float: lambda value: f"{value:.3f}"})
+    )
+    logger = logging.getLogger(__name__)
+    with caplog.at_level(logging.INFO):
+        logger.info("Testing", extra={"key1": math.pi})
+    expected = "Testing; key1=3.142\n"
+    assert caplog.text == expected
