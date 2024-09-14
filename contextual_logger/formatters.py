@@ -6,18 +6,6 @@ T = TypeVar("T")
 ValueSerializerMap = Dict[Type[T], Callable[[T], str]]
 
 
-def _str_serializer(value: str) -> str:
-    return f'"{value}"'
-
-
-def _none_serializer(_: None) -> str:
-    return "<null>"
-
-
-def _float_serializer(value: float) -> str:
-    return f"{value:.5f}"
-
-
 class ExtraTextFormatter(Formatter):
     _LOG_RECORD_ATTRIBUTES: Set[str] = {
         "args",
@@ -45,9 +33,9 @@ class ExtraTextFormatter(Formatter):
         "threadName",
     }
     _DEFAULT_SERIALIZERS: ValueSerializerMap = {
-        str: _str_serializer,
-        type(None): _none_serializer,
-        float: _float_serializer,
+        str: lambda value: f'"{value}"',
+        type(None): lambda _: "<None>",
+        float: lambda value: f"{value:.5f}",
     }
 
     def __init__(

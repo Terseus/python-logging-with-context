@@ -39,7 +39,7 @@ def test_extra_text_formatter_ok(caplog_factory: CaplogFactory):
     logger = logging.getLogger(__name__)
     with caplog.at_level(logging.INFO):
         logger.info("Testing", extra={"key1": "value", "key2": 100, "key3": None, "key4": math.pi})
-    expected = 'Testing; key1="value", key2=100, key3=<null>, key4=3.14159\n'
+    expected = 'Testing; key1="value", key2=100, key3=<None>, key4=3.14159\n'
     assert caplog.text == expected
 
 
