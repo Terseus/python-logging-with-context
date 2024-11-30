@@ -43,6 +43,7 @@ class ExtraTextFormatter(Formatter):
         *args,
         serializers: Optional[ValueSerializerMap] = None,
         default_serializer: Callable[[Any], str] = str,
+        parent: Optional[Formatter] = None,
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
@@ -50,6 +51,7 @@ class ExtraTextFormatter(Formatter):
             serializers = {}
         serializers = self._DEFAULT_SERIALIZERS | serializers
         self._serializers = defaultdict(lambda: default_serializer) | serializers
+        self._parent = parent
 
     def _serialize_value(self, value: Any) -> str:
         serializer = self._serializers[type(value)]
@@ -58,6 +60,8 @@ class ExtraTextFormatter(Formatter):
     def format(self, record: LogRecord) -> str:
         extras = set(record.__dict__.keys()) - self._LOG_RECORD_ATTRIBUTES
         message = super().format(record)
+        if self._parent:
+            message = self._parent.format(record)
         if not extras:
             return message
 

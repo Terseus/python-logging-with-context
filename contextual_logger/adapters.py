@@ -4,9 +4,12 @@ from typing import Any, Dict, Generator, MutableMapping, Optional, Tuple
 
 
 class ContextualAdapter(LoggerAdapter):
+    # NOTE: Override the type because Mapping doesn't support union operator
     extra: Dict[str, object]  # type: ignore[override]
 
-    def __init__(self, logger: Logger, context: Optional[MutableMapping[str, object]] = None):
+    def __init__(
+        self, logger: Logger, context: Optional[MutableMapping[str, object]] = None
+    ) -> None:
         super().__init__(logger, context or {})
 
     def process(

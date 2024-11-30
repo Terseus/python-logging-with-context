@@ -74,3 +74,16 @@ def test_extra_text_formatter_override_default_serializer_ok(caplog_factory: Cap
         logger.info("Testing", extra={"key1": math.pi})
     expected = "Testing; key1=3.142\n"
     assert caplog.text == expected
+
+
+def test_extra_text_formatter_with_parent_ok(caplog_factory: CaplogFactory):
+    caplog = caplog_factory(
+        ExtraTextFormatter(
+            fmt="%(message)s", parent=logging.Formatter(fmt="%(message)s - from parent")
+        )
+    )
+    logger = logging.getLogger(__name__)
+    with caplog.at_level(logging.INFO):
+        logger.info("Testing", extra={"key": "value"})
+    expected = 'Testing - from parent; key="value"\n'
+    assert caplog.text == expected
