@@ -39,7 +39,7 @@ def test_extra_text_formatter_ok(caplog_factory: CaplogFactory):
     logger = logging.getLogger(__name__)
     with caplog.at_level(logging.INFO):
         logger.info("Testing", extra={"key1": "value", "key2": 100, "key3": None, "key4": math.pi})
-    expected = 'Testing; key1="value", key2=100, key3=<None>, key4=3.14159\n'
+    expected = 'Testing |key1="value"|key2=100|key3=<None>|key4=3.14159|\n'
     assert caplog.text == expected
 
 
@@ -50,7 +50,7 @@ def test_extra_text_formatter_custom_serializer_ok(caplog_factory: CaplogFactory
     logger = logging.getLogger(__name__)
     with caplog.at_level(logging.INFO):
         logger.info("Testing", extra={"key1": "value1", "key2": MyValue("my_name", "my_value")})
-    expected = 'Testing; key1="value1", key2=MyValue(my_name=my_value)\n'
+    expected = 'Testing |key1="value1"|key2=MyValue(my_name=my_value)|\n'
     assert caplog.text == expected
 
 
@@ -61,7 +61,7 @@ def test_extra_text_formatter_default_serializer_ok(caplog_factory: CaplogFactor
     logger = logging.getLogger(__name__)
     with caplog.at_level(logging.INFO):
         logger.info("Testing", extra={"key1": "value1", "key2": MyValue("my_name", "my_value")})
-    expected = 'Testing; key1="value1", key2=MyValue(my_name=my_value)\n'
+    expected = 'Testing |key1="value1"|key2=MyValue(my_name=my_value)|\n'
     assert caplog.text == expected
 
 
@@ -72,7 +72,7 @@ def test_extra_text_formatter_override_default_serializer_ok(caplog_factory: Cap
     logger = logging.getLogger(__name__)
     with caplog.at_level(logging.INFO):
         logger.info("Testing", extra={"key1": math.pi})
-    expected = "Testing; key1=3.142\n"
+    expected = "Testing |key1=3.142|\n"
     assert caplog.text == expected
 
 
@@ -85,5 +85,5 @@ def test_extra_text_formatter_with_parent_ok(caplog_factory: CaplogFactory):
     logger = logging.getLogger(__name__)
     with caplog.at_level(logging.INFO):
         logger.info("Testing", extra={"key": "value"})
-    expected = 'Testing - from parent; key="value"\n'
+    expected = 'Testing - from parent |key="value"|\n'
     assert caplog.text == expected

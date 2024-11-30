@@ -65,7 +65,7 @@ class ExtraTextFormatter(Formatter):
         if not extras:
             return message
 
-        extras_msg = ", ".join(
+        extras_msg = "|".join(
             f"{name}={self._serialize_value(getattr(record, name))}" for name in sorted(extras)
         )
-        return f"{message}; {extras_msg}"
+        return f"{message} |{extras_msg}|"
