@@ -66,6 +66,7 @@ class ExtraTextFormatter(Formatter):
             return message
 
         extras_msg = "|".join(
-            f"{name}={self._serialize_value(getattr(record, name))}" for name in sorted(extras)
+            f"{name}={self._serialize_value(getattr(record, name))}"
+            for name in sorted(extras)
         )
         return f"{message} |{extras_msg}|"

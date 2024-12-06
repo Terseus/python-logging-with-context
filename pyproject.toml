@@ -26,8 +26,6 @@ dev = [
 source = "vcs"
 
 [tool.ruff]
-line-length = 99
-indent-width = 4
 target-version = "py39"
 
 [tool.ruff.format]
@@ -43,9 +41,6 @@ select = [
 ]
 
 [tool.ruff.lint.isort]
-known-local-folder = [
-    "contextual_logger",
-]
 split-on-trailing-comma = false
 
 [tool.pytest.ini_options]

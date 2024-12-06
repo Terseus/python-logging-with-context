@@ -38,18 +38,25 @@ def test_extra_text_formatter_ok(caplog_factory: CaplogFactory):
     caplog = caplog_factory(ExtraTextFormatter(fmt="%(message)s"))
     logger = logging.getLogger(__name__)
     with caplog.at_level(logging.INFO):
-        logger.info("Testing", extra={"key1": "value", "key2": 100, "key3": None, "key4": math.pi})
+        logger.info(
+            "Testing",
+            extra={"key1": "value", "key2": 100, "key3": None, "key4": math.pi},
+        )
     expected = 'Testing |key1="value"|key2=100|key3=<None>|key4=3.14159|\n'
     assert caplog.text == expected
 
 
 def test_extra_text_formatter_custom_serializer_ok(caplog_factory: CaplogFactory):
     caplog = caplog_factory(
-        ExtraTextFormatter(fmt="%(message)s", serializers={MyValue: _my_value_serializer})
+        ExtraTextFormatter(
+            fmt="%(message)s", serializers={MyValue: _my_value_serializer}
+        )
     )
     logger = logging.getLogger(__name__)
     with caplog.at_level(logging.INFO):
-        logger.info("Testing", extra={"key1": "value1", "key2": MyValue("my_name", "my_value")})
+        logger.info(
+            "Testing", extra={"key1": "value1", "key2": MyValue("my_name", "my_value")}
+        )
     expected = 'Testing |key1="value1"|key2=MyValue(my_name=my_value)|\n'
     assert caplog.text == expected
 
@@ -60,14 +67,20 @@ def test_extra_text_formatter_default_serializer_ok(caplog_factory: CaplogFactor
     )
     logger = logging.getLogger(__name__)
     with caplog.at_level(logging.INFO):
-        logger.info("Testing", extra={"key1": "value1", "key2": MyValue("my_name", "my_value")})
+        logger.info(
+            "Testing", extra={"key1": "value1", "key2": MyValue("my_name", "my_value")}
+        )
     expected = 'Testing |key1="value1"|key2=MyValue(my_name=my_value)|\n'
     assert caplog.text == expected
 
 
-def test_extra_text_formatter_override_default_serializer_ok(caplog_factory: CaplogFactory):
+def test_extra_text_formatter_override_default_serializer_ok(
+    caplog_factory: CaplogFactory,
+):
     caplog = caplog_factory(
-        ExtraTextFormatter(fmt="%(message)s", serializers={float: lambda value: f"{value:.3f}"})
+        ExtraTextFormatter(
+            fmt="%(message)s", serializers={float: lambda value: f"{value:.3f}"}
+        )
     )
     logger = logging.getLogger(__name__)
     with caplog.at_level(logging.INFO):

@@ -6,7 +6,9 @@ from typing import Any, Generator
 from contextual_logger.filters import FilterWithContextVar
 
 # NOTE: ContextVar should be created at the top module level.
-__global_context_var: ContextVar[dict[str, Any]] = ContextVar("global_context", default={})
+__global_context_var: ContextVar[dict[str, Any]] = ContextVar(
+    "global_context", default={}
+)
 
 
 def init_global_context(*loggers: Logger):

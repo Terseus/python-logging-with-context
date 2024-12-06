@@ -19,5 +19,7 @@ class ContextualAdapter(LoggerAdapter):
         return (msg, kwargs)
 
     @contextmanager
-    def context(self, context: Dict[str, Any]) -> Generator["ContextualAdapter", None, None]:
+    def context(
+        self, context: Dict[str, Any]
+    ) -> Generator["ContextualAdapter", None, None]:
         yield type(self)(logger=self.logger, context=self.extra | context)
