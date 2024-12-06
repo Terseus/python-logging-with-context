@@ -1,10 +1,11 @@
 [project]
 name = "contextual-logger"
-description = "Add your description here"
+description = "Utilities to includes and use context to the logging messages"
 readme = "README.md"
 authors = [
     { name = "David Caro", email = "terseus@fastmail.com" }
 ]
+license = "MIT"
 requires-python = ">=3.9"
 dependencies = []
 dynamic = ["version"]
@@ -13,9 +14,6 @@ dynamic = ["version"]
 requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
-[tool.hatch.version]
-source = "vcs"
-
 [dependency-groups]
 lint = []
 dev = [
@@ -23,3 +21,39 @@ dev = [
     "pytest-cov>=6.0.0",
     "ruff>=0.8.2",
 ]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.ruff]
+line-length = 99
+indent-width = 4
+target-version = "py39"
+
+[tool.ruff.format]
+skip-magic-trailing-comma = true
+
+[tool.ruff.lint]
+ignore = []
+select = [
+    "E",
+    "F",
+    "W",
+    "I",  # isort
+]
+
+[tool.ruff.lint.isort]
+known-local-folder = [
+    "contextual_logger",
+]
+split-on-trailing-comma = false
+
+[tool.pytest.ini_options]
+addopts = "--cov-report term --cov-report html --cov contextual_logger"
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
