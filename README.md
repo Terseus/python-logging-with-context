@@ -25,7 +25,7 @@ Python 3.9 or greater
 
 ## Install
 
-Install the package [logging-with-context](pypi.org/project/logging-with-context).
+Install the package [logging-with-context](https://pypi.org/project/logging-with-context).
 
 > [!NOTE]
 > The package is named logging-with-context because contextual-logging was rejected by Pypi due to being too similar to an existing project.
