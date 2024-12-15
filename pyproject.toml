@@ -1,5 +1,5 @@
 [project]
-name = "contextual-logging"
+name = "logging-with-context"
 description = "Python library to add context to logging messages"
 readme = "README.md"
 authors = [
@@ -44,7 +44,7 @@ select = [
 split-on-trailing-comma = false
 
 [tool.pytest.ini_options]
-addopts = "--cov-report term --cov-report html --cov contextual_logging"
+addopts = "--cov-report term --cov-report html --cov logging_with_context"
 
 [tool.coverage.run]
 branch = true

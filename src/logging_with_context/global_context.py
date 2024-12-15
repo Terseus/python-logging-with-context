@@ -10,7 +10,7 @@ from contextvars import ContextVar
 from logging import Logger, getLogger
 from typing import Any, Generator, Optional, Sequence
 
-from contextual_logging.filters import FilterWithContextVar
+from logging_with_context.filters import FilterWithContextVar
 
 # NOTE: ContextVar should be created at the top module level.
 __global_context_var: ContextVar[dict[str, Any]] = ContextVar(

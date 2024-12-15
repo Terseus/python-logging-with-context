@@ -6,7 +6,7 @@ from typing import Callable, Generator
 import pytest
 from pytest import LogCaptureFixture
 
-from contextual_logging.formatters import ExtraTextFormatter
+from logging_with_context.formatters import ExtraTextFormatter
 
 CaplogFactory = Callable[[logging.Formatter], LogCaptureFixture]
 

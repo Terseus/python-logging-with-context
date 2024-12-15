@@ -18,8 +18,8 @@ class ContextualAdapter(LoggerAdapter):
         Set up everything
 
         >>> import logging
-        >>> from contextual_logging.adapters import ContextualAdapter
-        >>> from contextual_logging.formatters import ExtraTextFormatter
+        >>> from logging_with_context.adapters import ContextualAdapter
+        >>> from logging_with_context.formatters import ExtraTextFormatter
         >>> logging.basicConfig(level=logging.INFO)
         >>> root = logging.getLogger()
 
