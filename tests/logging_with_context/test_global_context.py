@@ -2,7 +2,7 @@ import logging
 
 import pytest
 
-from contextual_logging.global_context import (
+from logging_with_context.global_context import (
     add_global_context,
     global_context_initialized,
 )

@@ -1,4 +1,4 @@
-# Contextual logging
+# Logging with context (contextual logging)
 
 This library provides utilities to easily add context to logging messages and to show them.
 
@@ -23,6 +23,14 @@ This library provides utilities and logging abstractions to ease the use of this
 Python 3.9 or greater
 
 
+## Install
+
+Install the package [logging-with-context](pypi.org/project/logging-with-context).
+
+> [!NOTE]
+> The package is named logging-with-context because contextual-logging was rejected by Pypi due to being too similar to an existing project.
+
+
 ## How to use it
 
 The expected workflow is:
@@ -40,7 +48,7 @@ After configuring your application's logging, initialize the global context:
 ```python
 import logging
 
-from contextual_logging.global_context import global_context_initialized
+from logging_with_context.global_context import global_context_initialized
 
 
 def main():
@@ -56,7 +64,7 @@ It accepts a dictionary with the values you want to include in all the logging m
 ```python
 import logging
 
-from contextual_logging.global_context import add_global_context
+from logging_with_context.global_context import add_global_context
 
 
 # ... somewhere in your app ...
@@ -77,7 +85,7 @@ In case you can't use the context manager, you can use the manual initialization
 ```python
 import logging
 
-from contextual_logging.global_context import init_global_context, shutdown_global_context
+from logging_with_context.global_context import init_global_context, shutdown_global_context
 
 
 def main():
@@ -109,7 +117,7 @@ To show the context you need a `Formatter` that somehow uses the context in the 
 
 For example, the logging handler in Python applications running at AWS Lambda handles this automatically by adding the context provided in `extra` as labels to the log struct, separated from the message.
 
-If you're logging to a `StreamHandler` you can use `contextual_logging.formatters.ExtraTextFormatter`, which accepts the same options as the standard library `Formatter`.
+If you're logging to a `StreamHandler` you can use `logging_with_context.formatters.ExtraTextFormatter`, which accepts the same options as the standard library `Formatter`.
 
 You can use it instead of the default `Formatter` in your logging setup:
 
@@ -118,7 +126,7 @@ version: 1
 
 formatters:
     contextual:
-        class: contextual_logging.formatters.ExtraTextFormatter
+        class: logging_with_context.formatters.ExtraTextFormatter
         format: '%(levelname)s %(message)s'
 
 handlers:
@@ -137,7 +145,7 @@ If you're modifying the logging setup made by other part of an application, you 
 ```python
 import logging
 
-from contextual_logging.formatters import ExtraTextFormatter
+from logging_with_context.formatters import ExtraTextFormatter
 
 def main():
     logging.basicConfig(level=logging.INFO)
@@ -161,7 +169,7 @@ The API accepts a list of loggers where the `Filter` will be attached in these c
 ```python
 import logging
 
-from contextual_logging.global_context import global_context_initialized
+from logging_with_context.global_context import global_context_initialized
 
 
 def app_entrypoint():

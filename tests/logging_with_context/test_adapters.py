@@ -2,7 +2,7 @@ import logging
 
 from pytest import LogCaptureFixture
 
-from contextual_logging.adapters import ContextualAdapter
+from logging_with_context.adapters import ContextualAdapter
 
 
 def test_contextual_adapter_with_extras_ok(caplog: LogCaptureFixture):

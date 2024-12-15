@@ -77,7 +77,7 @@ class ExtraTextFormatter(Formatter):
                 For example:
 
                     >>> import logging
-                    >>> from contextual_logging.formatters import ExtraTextFormatter
+                    >>> from logging_with_context.formatters import ExtraTextFormatter
                     >>> logging.basicConfig(level=logging.INFO)
                     >>> for handler in logging.getLogger().handlers:
                     >>>     handler.setFormatter(ExtraTextFormatter(
