@@ -11,8 +11,8 @@ wheels = [
 ]
 
 [[package]]
-name = "contextual-logger"
-version = "0.1.dev14+gd4f9653.d20241206"
+name = "contextual-logging"
+version = "0.1.dev20+g0029eff.d20241215"
 source = { editable = "." }
 
 [package.dev-dependencies]
