@@ -1,0 +1,36 @@
+site_name: Logging with context Documentation
+theme:
+  name: material
+  font:
+    text: Merriweather Sans
+    code: Red Hat Mono
+  icon:
+    logo: octicons/log-24
+  palette:
+    - scheme: slate
+      primary: green
+      accent: deep purple
+      toggle:
+        icon: material/weather-sunny
+        name: Dark mode
+    - scheme: default
+      primary: blue
+      accent: deep orange
+      toggle:
+        icon: material/weather-night
+        name: Light mode
+markdown_extensions:
+  # Adds syntax highlight to code blocks.
+  # Uses pygments as the backend.
+  # pymdownx extensions can be consulted here: https://facelessuser.github.io/pymdown-extensions/extensions/
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  # Syntax highlight for single-line code.
+  - pymdownx.inlinehilite
+  # Insert Markdown or HTML inside other Markdown documents.
+  # Process the snippets once and inserts them in multiple documents.
+  - pymdownx.snippets
+  # Allow nesting fences, needed for syntax highlight.
+  - pymdownx.superfences
