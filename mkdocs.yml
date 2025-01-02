@@ -34,3 +34,14 @@ markdown_extensions:
   - pymdownx.snippets
   # Allow nesting fences, needed for syntax highlight.
   - pymdownx.superfences
+plugins:
+  - mkdocstrings:
+      default_handler: python
+nav:
+  - Introduction: index.md
+  - howto.md
+  - API:
+    - api/global_context.md
+    - api/adapters.md
+    - api/formatters.md
+    - api/filters.md
