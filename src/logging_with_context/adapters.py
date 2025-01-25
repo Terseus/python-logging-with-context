@@ -15,28 +15,30 @@ class ContextualAdapter(LoggerAdapter):
 
     Example usage:
 
-        Set up everything
+    ```pycon
+    # Set up everything
 
-        >>> import logging
-        >>> from logging_with_context.adapters import ContextualAdapter
-        >>> from logging_with_context.formatters import ExtraTextFormatter
-        >>> logging.basicConfig(level=logging.INFO)
-        >>> root = logging.getLogger()
+    >>> import logging
+    >>> from logging_with_context.adapters import ContextualAdapter
+    >>> from logging_with_context.formatters import ExtraTextFormatter
+    >>> logging.basicConfig(level=logging.INFO)
+    >>> root = logging.getLogger()
 
-        To be able to see the context in the interpreter.
+    # To be able to see the context in the interpreter.
 
-        >>> root.handlers[0].setFormatter(
-        ...     ExtraTextFormatter(parent=root.handlers[0].formatter)
-        ... )
+    >>> root.handlers[0].setFormatter(
+    ...     ExtraTextFormatter(parent=root.handlers[0].formatter)
+    ... )
 
-        Using the adapter
+    # Using the adapter
 
-        >>> adapter = ContextualAdapter(root)
-        >>> with adapter.context({"key": "value"}) as logger:
-        ...     logger.info("This contains context")
-        ...     root.info("This does not")
-        INFO:root:This contains context |key="value"|
-        INFO:root:This does not
+    >>> adapter = ContextualAdapter(root)
+    >>> with adapter.context({"key": "value"}) as logger:
+    ...     logger.info("This contains context")
+    ...     root.info("This does not")
+    INFO:root:This contains context |key="value"|
+    INFO:root:This does not
+    ```
     """
 
     # NOTE: Override the type because Mapping doesn't support union operator

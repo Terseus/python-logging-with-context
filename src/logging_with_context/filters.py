@@ -10,13 +10,16 @@ from typing import Any
 class FilterWithContextVar(Filter):
     """
     Add the values from the current context to all the log messages as `extra` keys.
+
+    This class is not meant to be used directly, instead it's used by the
+    `global_context` module.
     """
 
     _context_var: ContextVar[dict[str, Any]]
 
     def __init__(self, context_var: ContextVar[dict[str, Any]]) -> None:
         """
-        Constructor..
+        Constructor.
 
         Parameters:
             context_var: The context storage to use.
