@@ -45,9 +45,27 @@ with add_global_context({"user_id": user_id, "request_id": request_id}):
 ```
 
 
+## Using the automatic init
+
+If you don't want to customise the initialization you can let `add_global_context` automatically handle the init and shutdown for you:
+
+```python
+import logging
+
+from logging_with_context.global_context import add_global_context
+
+
+def main():
+    logging.basicConfig(level=logging.INFO)  # Or any other way to setup logging.
+    with add_global_context({"user_id": 10}):
+        # Here the context is automatically initialized.
+        # It'll also be automatically shutdown once this context manager finishes.
+```
+
+
 ## Using the init/shutdown API
 
-In case you can't use the context manager, you can use the manual initialization and shutdown API:
+In case you want to customise the initialization but can't use the context manager, you can use the manual initialization and shutdown API:
 
 ```python
 import logging

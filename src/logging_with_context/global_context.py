@@ -16,6 +16,13 @@ from logging_with_context.filters import FilterWithContextVar
 __global_context_var: ContextVar[dict[str, Any]] = ContextVar(
     "global_context", default={}
 )
+__global_context_initialized: ContextVar[bool] = ContextVar(
+    "global_context_initialized", default=False
+)
+
+
+def _get_loggers_to_process(loggers: Optional[Sequence[Logger]] = None) -> list[Logger]:
+    return [getLogger()] if loggers is None else list(loggers)
 
 
 def init_global_context(loggers: Optional[Sequence[Logger]] = None) -> None:
@@ -26,9 +33,9 @@ def init_global_context(loggers: Optional[Sequence[Logger]] = None) -> None:
         loggers: The loggers to attach the global context; if not loggers are specified
             it will use the root logger.
     """
-    loggers_to_process = [getLogger()] if loggers is None else list(loggers)
+    __global_context_initialized.set(True)
     filter_with_context = FilterWithContextVar(__global_context_var)
-    for logger in loggers_to_process:
+    for logger in _get_loggers_to_process(loggers):
         for handler in logger.handlers:
             handler.addFilter(filter_with_context)
 
@@ -41,8 +48,8 @@ def shutdown_global_context(loggers: Optional[Sequence[Logger]] = None) -> None:
         loggers: The loggers that were used when calling `init_global_context`; by
             default the root logger.
     """
-    loggers_to_process = [getLogger()] if loggers is None else list(loggers)
-    for logger in loggers_to_process:
+    __global_context_initialized.set(False)
+    for logger in _get_loggers_to_process(loggers):
         for handler in logger.handlers:
             for filter_ in handler.filters:
                 if not isinstance(filter_, FilterWithContextVar):
@@ -72,7 +79,9 @@ def global_context_initialized(
 
 
 @contextmanager
-def add_global_context(context: dict[str, Any]) -> Generator[None, None, None]:
+def add_global_context(
+    context: dict[str, Any], *, auto_init: bool = True
+) -> Generator[None, None, None]:
     """
     Add values to the global context to be attached to all the log messages.
 
@@ -80,12 +89,26 @@ def add_global_context(context: dict[str, Any]) -> Generator[None, None, None]:
 
     Parameters:
         context: A key/value mapping with the values to add to the global context.
+        auto_init: Indicate if the global context should be automatically initialized
+            if it isn't.
+
+            If `True`, the context will be also automatically shutdown before exiting.
+
+            If the global context is already initialized it'll do nothing.
+
+            Keyword-only argument.
 
     Returns:
         A context manager that manages the life of the values.
     """
+    auto_initialized = False
+    if not __global_context_initialized.get() and auto_init:
+        init_global_context()
+        auto_initialized = True
     token = __global_context_var.set(__global_context_var.get() | context)
     try:
         yield
     finally:
         __global_context_var.reset(token)
+        if auto_initialized:
+            shutdown_global_context()
