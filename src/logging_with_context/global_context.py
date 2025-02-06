@@ -18,6 +18,10 @@ __global_context_var: ContextVar[dict[str, Any]] = ContextVar(
 )
 
 
+def _get_loggers_to_process(loggers: Optional[Sequence[Logger]] = None) -> list[Logger]:
+    return [getLogger()] if loggers is None else list(loggers)
+
+
 def init_global_context(loggers: Optional[Sequence[Logger]] = None) -> None:
     """
     Initialize the application global context in the given loggers.
@@ -26,9 +30,8 @@ def init_global_context(loggers: Optional[Sequence[Logger]] = None) -> None:
         loggers: The loggers to attach the global context; if not loggers are specified
             it will use the root logger.
     """
-    loggers_to_process = [getLogger()] if loggers is None else list(loggers)
     filter_with_context = FilterWithContextVar(__global_context_var)
-    for logger in loggers_to_process:
+    for logger in _get_loggers_to_process(loggers):
         for handler in logger.handlers:
             handler.addFilter(filter_with_context)
 
@@ -41,8 +44,7 @@ def shutdown_global_context(loggers: Optional[Sequence[Logger]] = None) -> None:
         loggers: The loggers that were used when calling `init_global_context`; by
             default the root logger.
     """
-    loggers_to_process = [getLogger()] if loggers is None else list(loggers)
-    for logger in loggers_to_process:
+    for logger in _get_loggers_to_process(loggers):
         for handler in logger.handlers:
             for filter_ in handler.filters:
                 if not isinstance(filter_, FilterWithContextVar):
